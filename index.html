@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media</title>
+    <style>
+     body {
+    font-family: sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    background-color: #333;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+}
+
+nav h2 {
+    margin: 0;
+}
+
+nav h2 span {
+    color: deepskyblue;
+    cursor: pointer;
+    margin: 0 10px;
+    transition: color 0.3s;
+}
+
+nav h2 span:hover {
+    color: #1e90ff;
+}
+
+.hidden {
+    display: none;
+}
+
+#login-box {
+    width: 60%;
+    margin: 50px auto;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#login-box h1 {
+    text-align: center;
+}
+
+#login-box input {
+    display: block;
+    width: 70%;
+    margin: 10px auto;
+    font-size: 24px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+}
+
+#login-box input:focus {
+    border-color: deepskyblue;
+    outline: none;
+}
+
+#login-box button {
+    font-size: 24px;
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: deepskyblue;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#login-box button:hover {
+    background-color: #1e90ff;
+}
+
+.error-message {
+    color: red;
+    font-size: 18px;
+    text-align: center;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.search-box, #users-box, nav {
+    width: 60%;
+    margin: 50px auto;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.search-box > input {
+    display: block;
+    width: 70%;
+    margin: 20px auto;
+    font-size: 24px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+}
+
+.search-box > input:focus {
+    border-color: deepskyblue;
+    outline: none;
+}
+
+.search-box > button {
+    font-size: 24px;
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: deepskyblue;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-box > button:hover {
+    background-color: #1e90ff;
+}
+
+.user-item {
+    width: 25%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    float: left;
+    margin: 10px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.user-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+#filters {
+    width: 250px;
+    height: auto;
+    border: 1px solid #ccc;
+    position: fixed;
+    top: 50px;
+    right: 0;
+    color: white;
+    background-color: turquoise;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none;
+    transition: all 0.3s;
+}
+
+#filters > p {
+    width: 100%;
+    margin: 10px 0;
+}
+
+#filters > select, #filters > button {
+    font-size: 18px;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#filters > select:focus, #filters > button:focus {
+    outline: none;
+    background-color: deepskyblue;
+    color: white;
+}
+
+#filters > button {
+    background-color: deepskyblue;
+    color: white;
+    cursor: pointer;
+}
+
+#filters > button:hover {
+    background-color: #1e90ff;
+}
+    </style>
+</head>
+
+<body>
+    <nav>
+        <h2>
+            <span id="filter-nav">Ֆիլտրներ</span>
+        </h2>
+    </nav>
+
+    <div class="search-box">
+        <h1 style="text-align: center; width: 100%;">Աշխատողների ցուցակ</h1>
+        <input id="search-input" type="text" placeholder="Որոնել․․․">
+        <button id="search-btn">Որոնել</button>
+    </div>
+
+    <div id="users-box"></div>
+
+    <div id="filters">
+        <h2>Ֆիլտրներ</h2>
+        <p>Երկիր</p>
+        <select name="" id="country-filter">
+            <option value="">Երկիր</option>
+            <option value="Հայաստան">Հայաստան</option>
+            <option value="Ռուսաստան">Ռուսաստան</option>
+            <option value="ԱՄՆ">ԱՄՆ</option>
+        </select><br>
+        <p>Սեռ</p>
+        <select name="" id="gender-filter">
+            <option value="">Սեռ</option>
+            <option value="Իգական">Իգական</option>
+            <option value="Արական">Արական</option>
+        </select><br><br>
+        <button id="update-filters">Թարմացնել</button>
+    </div>
+
+    <script>
+        let users = [
+     {
+          name: 'Հրաչ Դավթյան',
+          country: 'Ռուսաստան',
+          age: 49,
+          gender: "Արական"
+     },
+     {
+       name: 'Մուշեղ Դավթյան',
+       country: 'Ռուսաստան',
+       age: 25,
+       gender: "Արական"
+     },
+     {
+       name: 'Նարեկ Անդիկյան',
+       country: 'Հայաստան',
+       age: 57,
+       gender: "Արական"
+     },
+     {
+       name: 'Նարեկ Ուռության',
+       country: 'ԱՄՆ',
+       age: 32,
+       gender: 'Արական' 
+     },
+     {
+       name: 'Աննա Իվանովա',
+       country: 'Ռուսաստան',
+       age: 32,
+       gender: 'Իգական' 
+     },
+     { 
+     name: 'Դմիտրի Սմիրնով',
+     country: 'ԱՄՆ',
+     age: 45,
+     gender: 'Արական'
+     },
+     { 
+     name: 'Իգոր Կոզլով',
+     country: 'Հայաստան',
+     age: 36,
+     gender: 'Արական' 
+     },
+     { 
+     name: 'Նատալյա Մորոզովա', 
+     country: 'Հայաստան', 
+     age: 41, 
+     gender: 'Իգական' 
+     },
+     { 
+     name: 'Նատաշա Կրիլով', 
+     country: 'Ռուսաստան', 
+     age: 52,
+     gender: 'Իգական' 
+     }
+  ];
+  
+  let usersBox = document.querySelector("#users-box");
+  let searchButton = document.querySelector("#search-btn");
+  let searchText = document.querySelector("#search-input");
+  let filterNav = document.querySelector("#filter-nav");
+  let updateButton = document.querySelector("#update-filters");
+  
+  updateButton.addEventListener("click", function() {
+     let currentCountry = document.querySelector("#country-filter").value.toLowerCase();
+     let currentGender = document.querySelector("#gender-filter").value.toLowerCase();
+     let filteredUsers = users.filter(function(user) {
+       return (user.country.toLowerCase().includes(currentCountry) && 
+         user.gender.toLowerCase().includes(currentGender) &&
+         user.name.toLowerCase().includes(searchText.value.toLowerCase())
+       );
+     });
+     usersBox.innerHTML = "";
+     for (let user of filteredUsers) {
+       let userElement = document.createElement("DIV");
+       userElement.classList.add("user-item");
+       userElement.innerHTML = `
+         <h2><b>Անուն:</b></h2><h3><b> ${user.name}</b></h3>
+         <p><b>Երկիր:</b> ${user.country}</p>
+         <p><b>Տարիք:</b> ${user.age}</p>
+         <p><b>Սեռ:</b> ${user.gender}</p>
+       `;
+       usersBox.appendChild(userElement);
+     }
+  });
+  
+  filterNav.addEventListener("click", function() {
+     let filterBox = document.querySelector("#filters");
+     if (filterBox.style.display === '' || filterBox.style.display === 'none') {
+       filterBox.style.display = 'block';
+     } else {
+       filterBox.style.display = 'none';
+     }
+  });
+  
+  searchButton.addEventListener("click", function() {
+     let filteredUsers = users.filter(function(user) {
+       return user.name.toLowerCase().includes(searchText.value.toLowerCase());
+     });
+     usersBox.innerHTML = "";
+     for (let user of filteredUsers) {
+       let userElement = document.createElement("DIV");
+       userElement.classList.add("user-item");
+       userElement.innerHTML = `
+         <h2><b>Անուն:</b></h2><h3><b> ${user.name}</b></h3>
+         <p><b>Երկիր:</b> ${user.country}</p>
+         <p><b>Տարիք:</b> ${user.age}</p>
+         <p><b>Սեռ:</b> ${user.gender}</p>
+       `;
+       usersBox.appendChild(userElement);
+     }
+  });
+  
+  for (let user of users) {
+     let userElement = document.createElement("DIV");
+     userElement.classList.add("user-item");
+     userElement.innerHTML = `
+       <h2><b>Անուն:</b></h2><h3><b> ${user.name}</b></h3>
+       <p><b>Երկիր:</b> ${user.country}</p>
+       <p><b>Տարիք:</b> ${user.age}</p>
+       <p><b>Սեռ:</b> ${user.gender}</p>
+     `;
+     usersBox.appendChild(userElement);
+  }
+ 
+ 
+    </script>
+</body>
+
+</html>
